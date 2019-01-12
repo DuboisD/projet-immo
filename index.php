@@ -5,14 +5,16 @@ $noProblems = [];
 
 // Check 1
 
-try {
+if(file_exists('config.php')){
     $config = require 'config.php';
     $noProblems['Fichier config.php ok.'] = '';
-} catch (Exception $e) {
+}
+else{
     $majorProblems['Fichier config.php introuvable.'] = '';
 }
 
 // Check 1
+
 try{
     $dbh = new pdo('mysql:host='.$config['host'].';dbname='.$config['dbname'],
     $config['login'],

@@ -1,13 +1,30 @@
 <?php
 
-$majorProblems = [
-    'Connection BDD' => 'Connection BDD',
-    'Utilisateurs FTP' => 'Utilisateurs FTP',
-];
-$noProblems = [
-    'Connection BDD' => 'Connection BDD',
-    'Utilisateurs FTP' => 'Utilisateurs FTP',
-];
+$majorProblems = [];
+$noProblems = [];
+
+// Check 1
+
+try {
+    $config = require 'config.php';
+    $noProblems['Fichier config.php ok.'] = '';
+} catch (Exception $e) {
+    $majorProblems['Fichier config.php introuvable.'] = '';
+}
+
+// Check 1
+try{
+    $dbh = new pdo('mysql:host='.$config['host'].';dbname='.$config['dbname'],
+    $config['login'],
+    $config['password'],
+    array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    $noProblems['BDD ok.'] = '';
+}
+catch(PDOException $ex){
+    $majorProblems['Connexion BDD impossible.'] = '';
+}
+
+// Count problems
 
 $hasMajorProblems = count($majorProblems);
 $hasNoProblems = count($noProblems);
@@ -299,15 +316,15 @@ $hasNoProblems = count($noProblems);
                         <h1 class="title">Configuration Checker</h1>
                         <p>
                             This script analyzes your system to check whether is
-                            ready to run Symfony applications.
+                            ready to run applications.
                         </p>
 
                         <?php if ($hasMajorProblems): ?>
-                            <h2 class="ko">Major problems</h2>
-                            <p>Major problems have been detected and <strong>must</strong> be fixed before continuing:</p>
+                            <h2 class="ko">Ça marche pas :'(</h2>
+                            <p>Ces problèmes doivent être résolu :</p>
                             <ol>
                                 <?php foreach ($majorProblems as $problemKey => $valueProblem): ?>
-                                    <li><?php echo problemKey ?>
+                                    <li><?php echo $problemKey ?>
                                         <p class="help"><em><?php echo $valueProblem ?></em></p>
                                     </li>
                                 <?php endforeach; ?>
@@ -315,14 +332,10 @@ $hasNoProblems = count($noProblems);
                         <?php endif; ?>
 
                         <?php if ($hasNoProblems): ?>
-                            <h2 class="ok">Recommendations</h2>
-                            <p>
-                                <?php if ($hasNoProblems): ?>Additionally, to<?php else: ?>To<?php endif; ?> enhance your Symfony experience,
-                                it’s recommended that you fix the following:
-                            </p>
-                            <ol>
+                            <h2 class="ok">Validé</h2>
+                            <ul>
                                 <?php foreach ($noProblems as $problemKey => $valueProblem): ?>
-                                    <li><?php echo problemKey ?>
+                                    <li><?php echo $problemKey ?>
                                         <p class="help"><em><?php echo $valueProblem ?></em></p>
                                     </li>
                                 <?php endforeach; ?>

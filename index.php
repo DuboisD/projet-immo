@@ -1,44 +1,16 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+$majorProblems = [
+    'Connection BDD' => 'Connection BDD',
+    'Utilisateurs FTP' => 'Utilisateurs FTP',
+];
+$noProblems = [
+    'Connection BDD' => 'Connection BDD',
+    'Utilisateurs FTP' => 'Utilisateurs FTP',
+];
 
-use Symfony\Requirements\SymfonyRequirements;
-
-if (!isset($_SERVER['HTTP_HOST'])) {
-    exit("This script cannot be run from the CLI. Run it from a browser.\n");
-}
-
-if (!in_array(@$_SERVER['REMOTE_ADDR'], array(
-    '127.0.0.1',
-    '::1',
-))) {
-    header('HTTP/1.0 403 Forbidden');
-    exit('This script is only accessible from localhost.');
-}
-
-if (file_exists($autoloader = __DIR__.'/../../../autoload.php')) {
-    require_once $autoloader;
-} elseif (file_exists($autoloader = __DIR__.'/../vendor/autoload.php')) {
-    require_once $autoloader;
-} else {
-    throw new \RuntimeException('Unable to find the Composer autoloader.');
-}
-
-$symfonyVersion = class_exists('\Symfony\Component\HttpKernel\Kernel') ? \Symfony\Component\HttpKernel\Kernel::VERSION : null;
-
-$symfonyRequirements = new SymfonyRequirements(dirname(dirname(realpath($autoloader))), $symfonyVersion);
-
-$majorProblems = $symfonyRequirements->getFailedRequirements();
-$minorProblems = $symfonyRequirements->getFailedRecommendations();
-$hasMajorProblems = (bool) count($majorProblems);
-$hasMinorProblems = (bool) count($minorProblems);
+$hasMajorProblems = count($majorProblems);
+$hasNoProblems = count($noProblems);
 
 ?>
 <!DOCTYPE html>
@@ -334,48 +306,28 @@ $hasMinorProblems = (bool) count($minorProblems);
                             <h2 class="ko">Major problems</h2>
                             <p>Major problems have been detected and <strong>must</strong> be fixed before continuing:</p>
                             <ol>
-                                <?php foreach ($majorProblems as $problem): ?>
-                                    <li><?php echo $problem->getTestMessage() ?>
-                                        <p class="help"><em><?php echo $problem->getHelpHtml() ?></em></p>
+                                <?php foreach ($majorProblems as $problemKey => $valueProblem): ?>
+                                    <li><?php echo problemKey ?>
+                                        <p class="help"><em><?php echo $valueProblem ?></em></p>
                                     </li>
                                 <?php endforeach; ?>
                             </ol>
                         <?php endif; ?>
 
-                        <?php if ($hasMinorProblems): ?>
-                            <h2>Recommendations</h2>
+                        <?php if ($hasNoProblems): ?>
+                            <h2 class="ok">Recommendations</h2>
                             <p>
-                                <?php if ($hasMajorProblems): ?>Additionally, to<?php else: ?>To<?php endif; ?> enhance your Symfony experience,
+                                <?php if ($hasNoProblems): ?>Additionally, to<?php else: ?>To<?php endif; ?> enhance your Symfony experience,
                                 it’s recommended that you fix the following:
                             </p>
                             <ol>
-                                <?php foreach ($minorProblems as $problem): ?>
-                                    <li><?php echo $problem->getTestMessage() ?>
-                                        <p class="help"><em><?php echo $problem->getHelpHtml() ?></em></p>
+                                <?php foreach ($noProblems as $problemKey => $valueProblem): ?>
+                                    <li><?php echo problemKey ?>
+                                        <p class="help"><em><?php echo $valueProblem ?></em></p>
                                     </li>
                                 <?php endforeach; ?>
                             </ol>
                         <?php endif; ?>
-
-                        <?php if ($symfonyRequirements->hasPhpConfigIssue()): ?>
-                            <p id="phpini">*
-                                <?php if ($symfonyRequirements->getPhpIniPath()): ?>
-                                    Changes to the <strong>php.ini</strong> file must be done in "<strong><?php echo $symfonyRequirements->getPhpIniPath() ?></strong>".
-                                <?php else: ?>
-                                    To change settings, create a "<strong>php.ini</strong>".
-                                <?php endif; ?>
-                            </p>
-                        <?php endif; ?>
-
-                        <?php if (!$hasMajorProblems && !$hasMinorProblems): ?>
-                            <p class="ok">All checks passed successfully. Your system is ready to run Symfony applications.</p>
-                        <?php endif; ?>
-
-                        <ul class="symfony-install-continue">
-                            <?php if ($hasMajorProblems || $hasMinorProblems): ?>
-                                <li><a href="check.php">Re-check configuration</a></li>
-                            <?php endif; ?>
-                        </ul>
                     </div>
                 </div>
             </div>

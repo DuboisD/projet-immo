@@ -23,7 +23,7 @@ try{
     $noProblems['BDD ok.'] = '';
 }
 catch(PDOException $ex){
-    $majorProblems['Connexion BDD impossible.'] = '';
+    $majorProblems['Connexion BDD impossible.'] = $ex->getMessage();
 }
 
 // Count problems
@@ -97,7 +97,7 @@ $hasNoProblems = count($noProblems);
             version: 3.1.2
             build: 56
             */
-            .sf-reset div,.sf-reset dl,.sf-reset dt,.sf-reset dd,.sf-reset ul,.sf-reset ol,.sf-reset li,.sf-reset h1,.sf-reset h2,.sf-reset h3,.sf-reset h4,.sf-reset h5,.sf-reset h6,.sf-reset pre,.sf-reset code,.sf-reset form,.sf-reset fieldset,.sf-reset legend,.sf-reset input,.sf-reset textarea,.sf-reset p,.sf-reset blockquote,.sf-reset th,.sf-reset td{margin:0;padding:0;}.sf-reset table{border-collapse:collapse;border-spacing:0;}.sf-reset fieldset,.sf-reset img{border:0;}.sf-reset address,.sf-reset caption,.sf-reset cite,.sf-reset code,.sf-reset dfn,.sf-reset em,.sf-reset strong,.sf-reset th,.sf-reset var{font-style:normal;font-weight:normal;}.sf-reset li{list-style:none;}.sf-reset caption,.sf-reset th{text-align:left;}.sf-reset h1,.sf-reset h2,.sf-reset h3,.sf-reset h4,.sf-reset h5,.sf-reset h6{font-size:100%;font-weight:normal;}.sf-reset q:before,.sf-reset q:after{content:'';}.sf-reset abbr,.sf-reset acronym{border:0;font-variant:normal;}.sf-reset sup{vertical-align:text-top;}.sf-reset sub{vertical-align:text-bottom;}.sf-reset input,.sf-reset textarea,.sf-reset select{font-family:inherit;font-size:inherit;font-weight:inherit;}.sf-reset input,.sf-reset textarea,.sf-reset select{font-size:100%;}.sf-reset legend{color:#000;}
+            .sf-reset div,.sf-reset dl,.sf-reset dt,.sf-reset dd,.sf-reset ul,.sf-reset ol,.sf-reset li,.sf-reset h1,.sf-reset h2,.sf-reset h3,.sf-reset h4,.sf-reset h5,.sf-reset h6,.sf-reset pre,.sf-reset code,.sf-reset form,.sf-reset fieldset,.sf-reset legend,.sf-reset input,.sf-reset textarea,.sf-reset p,.sf-reset blockquote,.sf-reset th,.sf-reset td{margin:0;padding:0;}.sf-reset table{border-collapse:collapse;border-spacing:0;}.sf-reset fieldset,.sf-reset img{border:0;}.sf-reset address,.sf-reset caption,.sf-reset cite,.sf-reset code,.sf-reset dfn,.sf-reset em,.sf-reset strong,.sf-reset th,.sf-reset var{font-style:normal;font-weight:normal;}.sf-reset caption,.sf-reset th{text-align:left;}.sf-reset h1,.sf-reset h2,.sf-reset h3,.sf-reset h4,.sf-reset h5,.sf-reset h6{font-size:100%;font-weight:normal;}.sf-reset q:before,.sf-reset q:after{content:'';}.sf-reset abbr,.sf-reset acronym{border:0;font-variant:normal;}.sf-reset sup{vertical-align:text-top;}.sf-reset sub{vertical-align:text-bottom;}.sf-reset input,.sf-reset textarea,.sf-reset select{font-family:inherit;font-size:inherit;font-weight:inherit;}.sf-reset input,.sf-reset textarea,.sf-reset select{font-size:100%;}.sf-reset legend{color:#000;}
             .sf-reset abbr {
                 border-bottom: 1px dotted #000;
                 cursor: help;
@@ -132,9 +132,6 @@ $hasNoProblems = count($noProblems);
                 font-size: 20px;
                 color: #313131;
                 word-wrap: break-word;
-            }
-            .sf-reset li {
-                padding-bottom: 10px;
             }
             .sf-reset .block {
                 -moz-border-radius: 16px;
@@ -263,9 +260,6 @@ $hasNoProblems = count($noProblems);
             .sf-reset ol li {
                 list-style-type: decimal;
             }
-            .sf-reset ul li {
-                list-style-type: none;
-            }
             .sf-reset .symfony-blocks-install {
                 overflow: hidden;
             }
@@ -338,7 +332,6 @@ $hasNoProblems = count($noProblems);
                             <ul>
                                 <?php foreach ($noProblems as $problemKey => $valueProblem): ?>
                                     <li><?php echo $problemKey ?>
-                                        <p class="help"><em><?php echo $valueProblem ?></em></p>
                                     </li>
                                 <?php endforeach; ?>
                             </ol>

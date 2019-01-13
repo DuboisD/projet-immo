@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'host' => 'localhost',
+    'host' => 'localhost:3306',
     'dbname' => 'app',
-    'login' => 'root',
-    'password' => ''
+    'login' => 'newuser',
+    'password' => 'password'
 ];

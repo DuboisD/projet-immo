@@ -13,7 +13,7 @@ else{
     $majorProblems['Fichier config.php introuvable.'] = '';
 }
 
-// Check 1
+// Check 2
 
 try{
     $dbh = new pdo('mysql:host='.$config['host'].';dbname='.$config['dbname'],
@@ -24,6 +24,14 @@ try{
 }
 catch(PDOException $ex){
     $majorProblems['Connexion BDD impossible.'] = $ex->getMessage();
+}
+
+// Check 3
+
+if(is_dir('../ftp') && is_writable ('../ftp')){
+    $noProblems['Dossier ../ftp ok.'] = '';
+} else {
+    $majorProblems['Dossier ../ftp'] = 'Impossible d\'écrire dans le dossier.';
 }
 
 // Count problems

